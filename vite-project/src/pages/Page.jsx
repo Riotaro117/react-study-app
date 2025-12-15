@@ -15,18 +15,24 @@ const Page = () => {
       setStudy((prev) => [...prev, newStudy]);
       setInputVal('');
       setInputTime('');
-      setError("")
+      setError('');
       console.log(newStudy); //登録されていることを確認
     } else {
       setError('入力されていない項目があります');
     }
   };
 
+  const totalTime = study.reduce((sum, item) => {
+    // item.timeは文字列のためNumberを使用
+    return sum + Number(item.time);
+  }, 0);
+  console.log(totalTime);
+
   return (
     <>
       <h1>学習記録アプリ</h1>
       <h2>目指せ1000時間！</h2>
-      <div>
+      <div className="form card">
         <label>
           学習内容
           <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} />
@@ -37,7 +43,7 @@ const Page = () => {
           時間
         </label>
       </div>
-      <div>
+      <div className="form">
         <span>入力されている学習内容:{inputVal} </span>
         <span>入力されている時間: {inputTime}時間</span>
       </div>
@@ -50,8 +56,14 @@ const Page = () => {
         ))}
       </span>
       <button onClick={addList}>登録</button>
-      <span>{error}</span>
-      <span>合計時間: {} / 1000(h)</span>
+      <span className="text-red">{error}</span>
+      <div>
+        <span>
+          合計時間:
+          {totalTime}/ 1000(h)
+        </span>
+        <strong className='strong card form'>{totalTime > 1000 && '君は努力の天才だ！！'}</strong>
+      </div>
     </>
   );
 };
