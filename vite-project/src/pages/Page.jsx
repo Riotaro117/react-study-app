@@ -1,16 +1,17 @@
 import { useState } from 'react';
 
 const Page = () => {
-  const studyList = [];
+  // const studyList = []; 初期値専用変数は再利用する場合不要
   const [inputVal, setInputVal] = useState('');
   const [inputTime, setInputTime] = useState('');
-  const [study, setStudy] = useState(studyList);
+  const [study, setStudy] = useState([]);
 
   const [error, setError] = useState('');
 
   const addList = (e) => {
     e.preventDefault();
-    const newStudy = { id: study.length + 1, content: inputVal, time: inputTime };
+    // const newStudy = { id: study.length + 1, content: inputVal, time: inputTime };
+    const newStudy = { id: crypto.randomUUID(), content: inputVal, time: Number(inputTime) }; // idは順番ではなく一意性
     if (newStudy.content && newStudy.time) {
       setStudy((prev) => [...prev, newStudy]);
       setInputVal('');
@@ -24,7 +25,7 @@ const Page = () => {
 
   const totalTime = study.reduce((sum, item) => {
     // item.timeは文字列のためNumberを使用
-    return sum + Number(item.time);
+    return sum + item.time;
   }, 0);
   console.log(totalTime);
 
@@ -47,14 +48,14 @@ const Page = () => {
         <span>入力されている学習内容:{inputVal} </span>
         <span>入力されている時間: {inputTime}時間</span>
       </div>
-      <span>
+      <div>
         {study.map((study) => (
           <div key={study.id}>
             <span>{study.content}</span>
             <span>{`${study.time}時間`}</span>
           </div>
         ))}
-      </span>
+      </div>
       <button onClick={addList}>登録</button>
       <span className="text-red">{error}</span>
       <div>
@@ -62,7 +63,7 @@ const Page = () => {
           合計時間:
           {totalTime}/ 1000(h)
         </span>
-        <strong className='strong card form'>{totalTime > 1000 && '君は努力の天才だ！！'}</strong>
+        <strong className="strong card form">{totalTime >= 1000 && '君は努力の天才だ！！'}</strong>
       </div>
     </>
   );
