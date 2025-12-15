@@ -6,15 +6,21 @@ const Page = () => {
   const [inputTime, setInputTime] = useState('');
   const [study, setStudy] = useState(studyList);
 
+  const [error, setError] = useState('');
+
   const addList = (e) => {
     e.preventDefault();
     const newStudy = { id: study.length + 1, content: inputVal, time: inputTime };
-    setStudy((prev) => [...prev, newStudy]);
-    setInputVal('');
-    setInputTime('');
-    console.log(newStudy); //登録されていることを確認
+    if (newStudy.content && newStudy.time) {
+      setStudy((prev) => [...prev, newStudy]);
+      setInputVal('');
+      setInputTime('');
+      setError("")
+      console.log(newStudy); //登録されていることを確認
+    } else {
+      setError('入力されていない項目があります');
+    }
   };
-
 
   return (
     <>
@@ -44,7 +50,7 @@ const Page = () => {
         ))}
       </span>
       <button onClick={addList}>登録</button>
-      <span>{inputTime===undefined && "書きましょう"}</span>
+      <span>{error}</span>
       <span>合計時間: {} / 1000(h)</span>
     </>
   );
