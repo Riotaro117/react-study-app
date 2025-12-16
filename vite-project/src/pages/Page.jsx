@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import StudyForm from '../components/StudyForm';
+import StudyList from '../components/StudyList';
+import TotalTime from '../components/TotalTime';
 
 const Page = () => {
   // const studyList = []; 初期値専用変数は再利用する場合不要
@@ -27,44 +30,21 @@ const Page = () => {
     // item.timeは文字列のためNumberを使用
     return sum + item.time;
   }, 0);
-  console.log(totalTime);
-
+  console.log(totalTime); // 確認用
   return (
     <>
       <h1>学習記録アプリ</h1>
       <h2>目指せ1000時間！</h2>
-      <div className="form card">
-        <label>
-          学習内容
-          <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} />
-        </label>
-        <label>
-          学習時間
-          <input type="number" value={inputTime} onChange={(e) => setInputTime(e.target.value)} />
-          時間
-        </label>
-      </div>
-      <div className="form">
-        <span>入力されている学習内容:{inputVal} </span>
-        <span>入力されている時間: {inputTime}時間</span>
-      </div>
-      <div>
-        {study.map((study) => (
-          <div key={study.id}>
-            <span>{study.content}</span>
-            <span>{`${study.time}時間`}</span>
-          </div>
-        ))}
-      </div>
+      <StudyForm
+        inputVal={inputVal}
+        setInputVal={setInputVal}
+        inputTime={inputTime}
+        setInputTime={setInputTime}
+      />
+      <StudyList study={study} />
       <button onClick={addList}>登録</button>
       <span className="text-red">{error}</span>
-      <div>
-        <span>
-          合計時間:
-          {totalTime}/ 1000(h)
-        </span>
-        <strong className="strong card form">{totalTime >= 1000 && '君は努力の天才だ！！'}</strong>
-      </div>
+      <TotalTime totalTime={totalTime} />
     </>
   );
 };
