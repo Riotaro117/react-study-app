@@ -3,6 +3,8 @@ import StudyForm from '../components/StudyForm.js';
 import StudyList from '../components/StudyList.js';
 import TotalTime from '../components/TotalTime.js';
 
+
+
 const Page = () => {
   // const studyList = []; 初期値専用変数は再利用する場合不要
   const [inputVal, setInputVal] = useState('');
@@ -10,8 +12,9 @@ const Page = () => {
   const [study, setStudy] = useState([]);
 
   const [error, setError] = useState('');
+  
 
-  const addList = async(e) => {
+  const addList = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const newStudy = { id: crypto.randomUUID(), content: inputVal, time: Number(inputTime) }; // idは順番ではなく一意性
@@ -40,7 +43,7 @@ const Page = () => {
   //   }
   // };
 
-  const totalTime = study.reduce((sum, item) => {
+  const totalTime = study.reduce((sum:number, item) => {
     // item.timeは文字列のためNumberを使用
     return sum + item.time;
   }, 0);

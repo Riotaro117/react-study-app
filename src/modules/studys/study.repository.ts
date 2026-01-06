@@ -1,4 +1,4 @@
-import { supabase } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 export const studyRepository = {
   async create(title, content) {

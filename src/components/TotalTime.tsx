@@ -1,4 +1,8 @@
-const TotalTime = ({totalTime}) => {
+interface ItemProps {
+  totalTime: number;
+}
+
+const TotalTime = ({ totalTime }: ItemProps) => {
   return (
     <div>
       <span>
