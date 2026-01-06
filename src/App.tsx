@@ -4,8 +4,26 @@ import Signin from './pages/signin';
 import Signup from './pages/signup';
 import Home from './pages/Home';
 import Layout from './layout';
+import { useEffect, useState } from 'react';
+import { useCurrentUserStore } from './modules/auth/current-user.state';
+import { authRepository } from './modules/auth/auth.repository';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const currentUserStore = useCurrentUserStore();
+
+  // ログイン状態を保持する処理
+  useEffect(() => {
+    const getUser = async () => {
+      const currentUser = await authRepository.getCurrentUser();
+      currentUserStore.set(currentUser);
+      setIsLoading(false);
+    };
+    getUser();
+  }, []);
+
+  if (isLoading) return <div>Now loading...</div>;
+
   return (
     <BrowserRouter>
       <Routes>
