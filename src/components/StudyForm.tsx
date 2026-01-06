@@ -1,15 +1,25 @@
-const StudyForm = ({inputVal,setInputVal,inputTime,setInputTime}) => {
+const StudyForm = ({ inputVal, setInputVal, inputTime, setInputTime }) => {
   return (
     <>
       {' '}
       <div className="form card">
         <label>
-          学習内容
-          <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} />
+          学習内容→
+          <input
+            className="text-right"
+            type="text"
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
+          />
         </label>
         <label>
-          学習時間
-          <input type="number" value={inputTime} onChange={(e) => setInputTime(e.target.value)} />
+          学習時間→
+          <input
+            className="text-right"
+            type="number"
+            value={inputTime}
+            onChange={(e) => setInputTime(e.target.value)}
+          />
           時間
         </label>
       </div>
