@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import StudyForm from '../components/StudyForm.js';
-import StudyList from '../components/StudyList.js';
-import TotalTime from '../components/TotalTime.js';
+import StudyForm from '../components/StudyForm';
+import StudyList from '../components/StudyList';
+import TotalTime from '../components/TotalTime';
 
-
-
-const Page = () => {
+const Home = () => {
   // const studyList = []; 初期値専用変数は再利用する場合不要
   const [inputVal, setInputVal] = useState('');
   const [inputTime, setInputTime] = useState('');
@@ -66,4 +64,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Home;
