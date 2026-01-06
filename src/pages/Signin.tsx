@@ -1,15 +1,21 @@
 import { authRepository } from '@/modules/auth/auth.repository';
+import { useCurrentUserStore } from '@/modules/auth/current-user.state';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const currentUserStore = useCurrentUserStore();
 
   const signin = async () => {
     const user = await authRepository.signin(email, password);
-    console.log(user);
+    currentUserStore.set(user); //ログインしたユーザーの情報をグローバルステートに登録
   };
+
+  // すでにログインしている時の処理
+  if (currentUserStore.currentUser != null) return <Navigate replace to="/" />;
+
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center">
