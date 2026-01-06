@@ -13,6 +13,8 @@ const Home = () => {
   const { currentUser } = useCurrentUserStore();
   const studyStore = useStudyStore();
 
+  const [totalTime, setTotalTime] = useState(0);
+
   // はじめにDBからデータを取得する
   useEffect(() => {
     const fetchStudys = async () => {
@@ -20,7 +22,13 @@ const Home = () => {
       studyStore.setStudys(data);
     };
     fetchStudys();
-  }, [currentUser]);
+
+    const fetchStudyTimes = async () => {
+      const total = await studyRepository.totalTime(currentUser!.id);
+      setTotalTime(total)
+    };
+    fetchStudyTimes();
+  }, [currentUser,totalTime]);
 
   const addList = async () => {
     // UIはReact側で制御するのでtry,catch文で
@@ -43,6 +51,7 @@ const Home = () => {
   //   return sum + item.time;
   // }, 0);
   // console.log(totalTime); // 確認用
+
   return (
     <>
       <h1>学習記録アプリ</h1>
@@ -55,7 +64,7 @@ const Home = () => {
       />
       <StudyList />
       <button onClick={addList}>登録</button>
-      {/* <TotalTime  /> */}
+      <TotalTime totalTime={totalTime} />
     </>
   );
 };
