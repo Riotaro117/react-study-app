@@ -25,11 +25,20 @@ export const studyRepository = {
   },
 
   // DBの内容を取得する処理
-  async find(userId: string): Promise<Study[]> {
+  async find(userId: string) {
     const { data, error } = await supabase.from('studys').select('*').eq('user_id', userId);
-    if (error != null) console.error(error)
-    // if (error != null) throw new Error(error.message);
+    if (error != null) throw new Error(error.message);
+    return data;
+  },
 
-    return data ?? [];
+  // 合計時間を取得する処理
+  async totalTime(user_id: string) {
+    const { data, error } = await supabase.from('studys').select('time').eq('user_id', user_id);
+    if (error != null) throw new Error(error.message);
+    if (data == null) return 0;
+    const totalTime = data.reduce((sum, record) => {
+      return sum + record.time;
+    }, 0);
+    return totalTime;
   },
 };
