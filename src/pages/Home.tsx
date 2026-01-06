@@ -1,51 +1,48 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StudyForm from '../components/StudyForm';
 import StudyList from '../components/StudyList';
 import TotalTime from '../components/TotalTime';
+import { studyRepository } from '@/modules/studys/study.repository';
+import { useCurrentUserStore } from '@/modules/auth/current-user.state';
+import { useStudyStore } from '@/modules/studys/study.state';
 
 const Home = () => {
-  // const studyList = []; 初期値専用変数は再利用する場合不要
   const [inputVal, setInputVal] = useState('');
-  const [inputTime, setInputTime] = useState('');
-  const [study, setStudy] = useState([]);
+  const [inputTime, setInputTime] = useState(0);
 
-  const [error, setError] = useState('');
-  
+  const { currentUser } = useCurrentUserStore();
+  const studyStore = useStudyStore();
 
-  const addList = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  // はじめにDBからデータを取得する
+  useEffect(() => {
+    const fetchStudys = async () => {
+      const data = await studyRepository.find(currentUser!.id);
+      studyStore.setStudys(data);
+    };
+    fetchStudys();
+  }, [currentUser]);
 
-    const newStudy = { id: crypto.randomUUID(), content: inputVal, time: Number(inputTime) }; // idは順番ではなく一意性
-    if (newStudy.content && newStudy.time) {
-      setStudy((prev) => [...prev, newStudy]);
+  const addList = async () => {
+    // UIはReact側で制御するのでtry,catch文で
+    try {
+      const newstudy = await studyRepository.create(currentUser!.id, {
+        content: inputVal,
+        time: inputTime,
+      });
       setInputVal('');
-      setInputTime('');
-      setError('');
-      console.log(newStudy); //登録されていることを確認
-    } else {
-      setError('入力されていない項目があります');
+      setInputTime(0);
+      // 配列の更新は破壊しないように！エラーが出ます
+      studyStore.setStudys((prevStudy) => [...prevStudy, newstudy]);
+    } catch (e: any) {
+      alert(e.message);
     }
   };
-  // const addList = (e) => {
-  //   e.preventDefault();
-  //   // const newStudy = { id: study.length + 1, content: inputVal, time: inputTime };
-  //   const newStudy = { id: crypto.randomUUID(), content: inputVal, time: Number(inputTime) }; // idは順番ではなく一意性
-  //   if (newStudy.content && newStudy.time) {
-  //     setStudy((prev) => [...prev, newStudy]);
-  //     setInputVal('');
-  //     setInputTime('');
-  //     setError('');
-  //     console.log(newStudy); //登録されていることを確認
-  //   } else {
-  //     setError('入力されていない項目があります');
-  //   }
-  // };
 
-  const totalTime = study.reduce((sum:number, item) => {
-    // item.timeは文字列のためNumberを使用
-    return sum + item.time;
-  }, 0);
-  console.log(totalTime); // 確認用
+  // const totalTime = studys.reduce((sum: number, item) => {
+  //   // item.timeは文字列のためNumberを使用
+  //   return sum + item.time;
+  // }, 0);
+  // console.log(totalTime); // 確認用
   return (
     <>
       <h1>学習記録アプリ</h1>
@@ -56,10 +53,9 @@ const Home = () => {
         inputTime={inputTime}
         setInputTime={setInputTime}
       />
-      <StudyList study={study} />
+      <StudyList />
       <button onClick={addList}>登録</button>
-      <span className="text-red">{error}</span>
-      <TotalTime totalTime={totalTime} />
+      {/* <TotalTime  /> */}
     </>
   );
 };

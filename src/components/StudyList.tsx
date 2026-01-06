@@ -1,7 +1,10 @@
-const StudyList = ({ study }) => {
+import { useStudyStore } from '@/modules/studys/study.state';
+
+const StudyList = () => {
+  const { studys } = useStudyStore();
   return (
     <div>
-      {study.map((study) => (
+      {studys.map((study) => (
         <div key={study.id}>
           <span>{study.content}</span>
           <span>{`${study.time}時間`}</span>
