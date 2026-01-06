@@ -1,8 +1,5 @@
-interface ItemProps {
-  totalTime: number;
-}
-
-const TotalTime = ({ totalTime }: ItemProps) => {
+const TotalTime = ({totalTime}) => {
+  // const totalTime = () => {};
   return (
     <div>
       <span>
