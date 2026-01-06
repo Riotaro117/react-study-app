@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
 export const authRepository = {
+  // ユーザー作成機能
   async signup(name: string, email: string, password: string) {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -12,6 +13,22 @@ export const authRepository = {
       },
     });
     if (error != null || data.user == null) throw new Error(error?.message);
-    return data;
+    //dataをreturnすると使いにくいため、元のオブジェクトを破壊しないようにコピーした
+    return {
+      ...data.user,
+      userName: data.user.user_metadata.name,
+    };
+  },
+  // ログイン機能
+  async signin(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error != null || data.user == null) throw new Error(error?.message);
+    return {
+      ...data.user,
+      userName: data.user.user_metadata.name,
+    };
   },
 };
