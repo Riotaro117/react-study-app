@@ -6,5 +6,7 @@ const studyAtom = atom<Study[]>([]);
 
 export const useStudyStore = () => {
   const [studys, setStudys] = useAtom(studyAtom);
-  return { studys, setStudys };
+  // 入力したリストを空っぽにする
+  const clear = () => setStudys([]);
+  return { studys, setStudys, clear };
 };
