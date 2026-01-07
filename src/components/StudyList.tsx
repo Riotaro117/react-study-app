@@ -3,7 +3,7 @@ import { useStudyStore } from '@/modules/studys/study.state';
 const StudyList = () => {
   const { studys } = useStudyStore();
   return (
-    <div>
+    <div className='flex flex-col gap-5'>
       {studys.map((study) => (
         <div key={study.id}>
           <span>{study.content}</span>

@@ -1,8 +1,7 @@
 const StudyForm = ({ inputVal, setInputVal, inputTime, setInputTime }) => {
   return (
     <>
-      {' '}
-      <div className="form card">
+      <div className="flex flex-col p-4">
         <label>
           学習内容→
           <input
@@ -23,7 +22,7 @@ const StudyForm = ({ inputVal, setInputVal, inputTime, setInputTime }) => {
           時間
         </label>
       </div>
-      <div className="form">
+      <div className="flex flex-col p-4">
         <span>入力されている学習内容:{inputVal} </span>
         <span>入力されている時間: {inputTime}時間</span>
       </div>
