@@ -13,7 +13,8 @@ const Home = () => {
   const { currentUser } = useCurrentUserStore();
   const studyStore = useStudyStore();
 
-  const [totalTime, setTotalTime] = useState(0);
+  // 値が更新の状態を管理する→numberなのはbooleanだと何回も更新できないから
+  const [updateAt, setUpdateAt] = useState(0);
 
   // はじめにDBからデータを取得する
   useEffect(() => {
@@ -22,13 +23,7 @@ const Home = () => {
       studyStore.setStudys(data);
     };
     fetchStudys();
-
-    const fetchStudyTimes = async () => {
-      const total = await studyRepository.totalTime(currentUser!.id);
-      setTotalTime(total)
-    };
-    fetchStudyTimes();
-  }, [currentUser,totalTime]);
+  }, [currentUser]);
 
   const addList = async () => {
     // UIはReact側で制御するのでtry,catch文で
@@ -41,16 +36,11 @@ const Home = () => {
       setInputTime(0);
       // 配列の更新は破壊しないように！エラーが出ます
       studyStore.setStudys((prevStudy) => [...prevStudy, newstudy]);
+      setUpdateAt(Date.now()); // データ更新を知らせるために更新した
     } catch (e: any) {
       alert(e.message);
     }
   };
-
-  // const totalTime = studys.reduce((sum: number, item) => {
-  //   // item.timeは文字列のためNumberを使用
-  //   return sum + item.time;
-  // }, 0);
-  // console.log(totalTime); // 確認用
 
   return (
     <>
@@ -64,7 +54,7 @@ const Home = () => {
       />
       <StudyList />
       <button onClick={addList}>登録</button>
-      <TotalTime totalTime={totalTime} />
+      <TotalTime updateAt={updateAt} />
     </>
   );
 };

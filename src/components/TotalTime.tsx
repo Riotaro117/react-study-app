@@ -1,5 +1,24 @@
-const TotalTime = ({totalTime}) => {
-  // const totalTime = () => {};
+import { useCurrentUserStore } from '@/modules/auth/current-user.state';
+import { studyRepository } from '@/modules/studys/study.repository';
+import { useEffect, useState } from 'react';
+
+type Props = {
+  updateAt: number;
+};
+
+const TotalTime = ({ updateAt }: Props) => {
+  const [totalTime, setTotalTime] = useState(0);
+  const { currentUser } = useCurrentUserStore();
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const fetchStudyTimes = async () => {
+      const total = await studyRepository.totalTime(currentUser.id);
+      setTotalTime(total);
+    };
+    fetchStudyTimes();
+  }, [currentUser, updateAt]);
+
   return (
     <div>
       <span>
