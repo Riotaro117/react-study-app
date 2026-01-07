@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 
 const Layout = () => {
   const studyStore = useStudyStore();
+  const currentUserStore = useCurrentUserStore();
 
   const [isLoading, setIsLoading] = useState(true);
-  const currentUserStore = useCurrentUserStore();
 
   // ログイン状態を保持する処理
   useEffect(() => {
@@ -20,10 +20,10 @@ const Layout = () => {
     getUser();
   }, []);
 
-  // ログインしていない時の処理
-  if (currentUserStore.currentUser == null) return <Navigate replace to="/signin/" />;
-
   if (isLoading) return <div>Now loading...</div>;
+
+  // ログインしていない時の処理
+  if (currentUserStore.currentUser == null) return <Navigate replace to="/signin" />;
 
   const signout = async () => {
     await authRepository.signout();
