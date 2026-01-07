@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Signin from './pages/signin';
-import Signup from './pages/signup';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
 import Home from './pages/Home';
-import Layout from './layout';
+import Layout from './Layout';
 import { useEffect, useState } from 'react';
 import { useCurrentUserStore } from './modules/auth/current-user.state';
 import { authRepository } from './modules/auth/auth.repository';

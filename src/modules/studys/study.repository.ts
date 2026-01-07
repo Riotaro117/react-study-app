@@ -1,5 +1,4 @@
 import { supabase } from '@/lib/supabase';
-import { Study } from './study.entity';
 
 export const studyRepository = {
   // 学習内容を登録する処理
