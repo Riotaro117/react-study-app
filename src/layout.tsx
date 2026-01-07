@@ -2,13 +2,28 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useCurrentUserStore } from './modules/auth/current-user.state';
 import { useStudyStore } from './modules/studys/study.state';
 import { authRepository } from './modules/auth/auth.repository';
+import { useEffect, useState } from 'react';
 
 const Layout = () => {
-  const currentUserStore = useCurrentUserStore();
   const studyStore = useStudyStore();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const currentUserStore = useCurrentUserStore();
+
+  // ログイン状態を保持する処理
+  useEffect(() => {
+    const getUser = async () => {
+      const currentUser = await authRepository.getCurrentUser();
+      currentUserStore.set(currentUser);
+      setIsLoading(false);
+    };
+    getUser();
+  }, []);
 
   // ログインしていない時の処理
   if (currentUserStore.currentUser == null) return <Navigate replace to="/signin/" />;
+
+  if (isLoading) return <div>Now loading...</div>;
 
   const signout = async () => {
     await authRepository.signout();
