@@ -1,4 +1,13 @@
-const StudyForm = ({ inputVal, setInputVal, inputTime, setInputTime }) => {
+import { Dispatch, SetStateAction } from 'react';
+
+type Props = {
+  inputVal: string;
+  setInputVal: Dispatch<SetStateAction<string>>;
+  inputTime: number;
+  setInputTime: Dispatch<SetStateAction<number>>;
+};
+
+const StudyForm = ({ inputVal, setInputVal, inputTime, setInputTime }: Props) => {
   return (
     <>
       <div className="flex flex-col p-4">
@@ -17,7 +26,7 @@ const StudyForm = ({ inputVal, setInputVal, inputTime, setInputTime }) => {
             className="text-right"
             type="number"
             value={inputTime}
-            onChange={(e) => setInputTime(e.target.value)}
+            onChange={(e) => setInputTime(Number(e.target.value))}
           />
           時間
         </label>
