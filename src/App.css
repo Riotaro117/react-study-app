@@ -32,25 +32,15 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-
-.card {
-  /* padding: 2em; */
-}
-
 .read-the-docs {
   color: #888;
 }
 
-.form{
-  /* display: flex;
-  flex-direction: column; */
-}
-
-.text-red{
+.text-red {
   color: red;
 }
 
-.strong{
-color: red;
+.strong {
+  color: red;
   font-size: 30px;
 }
