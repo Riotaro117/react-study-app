@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai';
 import { Study } from './study.entity';
 
-// jotaiではatomの初期値は絶対必要
+// 配列であるため初期値は絶対必要
 const studyAtom = atom<Study[]>([]);
 
 export const useStudyStore = () => {
