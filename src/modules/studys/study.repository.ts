@@ -39,5 +39,5 @@ export const studyRepository = {
       return sum + record.time;
     }, 0);
     return totalTime;
-  },
+  },　　　
 };
