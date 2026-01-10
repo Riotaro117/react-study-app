@@ -35,8 +35,8 @@ export const authRepository = {
   // 画面を更新してもログイン状態を維持する機能
   async getCurrentUser() {
     const { data, error } = await supabase.auth.getUser();
-    if (error != null) throw new Error(error.message);
-    if (data.user == null) return;
+    // if (error != null) throw new Error(error.message);
+    if (error || data.user == null) return ;
     return { ...data.user, userName: data.user.user_metadata.name };
   },
 
